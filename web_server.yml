@@ -1,0 +1,39 @@
+---
+# variables from dynamic inventory
+- name: variables from dynamic inventory -- Install WordPress, MariaDB, Nginx, and PHP-FPM
+  hosts: "{{ passed_in_hosts }}" 
+  remote_user: centos # user used to connect to AWS servers.
+  become: true
+  become_method: sudo
+  become_user: root
+ 
+#  tasks:  - name: display variables from dynamic inventory
+#    vars:
+#      myVar: |
+#        Name: {{ tags.Name }} 
+#        Instance Id: {{ instance_id }} 
+#        Region: {{ placement.region }} 
+#        Zone: {{ placement.availability_zone }} 
+#        Instance Type: {{  instance_type }}
+#        Public Ip: {{ public_ip_address }}
+#        Private Ip: {{ private_ip_address }}
+#        Image Id: {{ image_id }}
+#        VPC Id: {{ vpc_id}}
+#        Security Groups: {{ security_groups }}
+#        Subnet: {{ subnet_id }}
+#        Launch: {{ launch_time }}
+#        Architecture: {{ architecture }}
+#        Hypervisor: {{ hypervisor }}
+#        Virtualization: {{ virtualization_type }}
+#        Key Name: {{ key_name }}
+#        Root Device: {{ root_device_name }}
+#        Tags: {{ tags }}
+#      debug: 
+#        msg: "{{ myVar.split('\n') }}"
+#        
+  roles:
+    - common
+    - mariadb
+    - nginx
+    - php-fpm
+    - wordpress

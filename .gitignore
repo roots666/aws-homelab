@@ -4,6 +4,8 @@
 # .tfstate files
 *.tfstate
 *.tfstate.*
+.DS_Store
+**/.DS_Store
 
 # Crash log files
 crash.log
@@ -27,3 +29,20 @@ override.tf.json
 
 # Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
 # example: *tfplan*
+###########################################################################################
+### Ansible and others ignore files
+
+bin/
+lib/
+include/
+local/
+tests.out
+*.retry
+*.log
+vbox_host.cfg
+.DS_Store
+*.py[co]
+*.bak
+*.swp
+
+

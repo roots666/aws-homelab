@@ -1,0 +1,53 @@
+---
+# TEST pipeline
+name: TEST Deployment
+on: 
+  workflow_dispatch:
+    inputs:
+      git-ref:
+        description: Git Ref (Optional)    
+        required: false
+jobs:
+  deploy:
+    name: Deploy 
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials from Test account
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.TEST_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Install python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+
+    - name: Install required dependencies 
+      run: |
+        pip install ansible awscli botocore boto3
+
+    - name: Install Terraform
+      uses: little-core-labs/install-terraform@v2.0.0
+      with:
+          version: 0.13.4
+    - name: Terraform apply
+      run: |
+        terraform init
+        terraform plan
+        terraform apply -auto-approve
+
+    - name: Run ansible playbook
+      uses: dawidd6/action-ansible-playbook@v2
+      with:
+        playbook: web-server.yml
+        directory: ./
+        key: ${{secrets.TEST_SSH_PRIVATE_KEY}}
+        inventory: |
+          inventory_aws_ec2.yml
+      options: |
+        --verbose
