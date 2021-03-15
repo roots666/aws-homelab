@@ -1,3 +1,3 @@
 variable "username" {
-  type = "list"
+  type = list
 }

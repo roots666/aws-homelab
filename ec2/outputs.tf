@@ -10,9 +10,3 @@ output "instance2_id" {
 output "server_ip" {
   value = "${join(",",aws_instance.my-test-instance.*.public_ip)}"
 }
-
-
-output "instance_id" {
-  value = "${aws_instance.my-test-instance.*.id}"
-}
-

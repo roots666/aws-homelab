@@ -1,9 +1,9 @@
 variable "vpc_id" {}
 
 variable "hostname" {
-  type = "list"
+  type = list
 }
 
 variable "arecord" {
-  type = "list"
+  type = list
 }

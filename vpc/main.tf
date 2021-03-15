@@ -87,7 +87,7 @@ resource "aws_route_table_association" "public_subnet_assoc" {
   count          = 2
   route_table_id = "${aws_route_table.public_route.id}"
   subnet_id      = "${aws_subnet.public_subnet.*.id[count.index]}"
-  depends_on     = ["aws_route_table.public_route", "aws_subnet.public_subnet"]
+  depends_on     = [aws_route_table.public_route, aws_subnet.public_subnet]
 }
 
 # Associate Private Subnet with Private Route Table
@@ -204,12 +204,4 @@ resource "aws_eip" "my-test-eip" {
 resource "aws_nat_gateway" "my-test-nat-gateway" {
   allocation_id = "${aws_eip.my-test-eip.id}"
   subnet_id     = "${aws_subnet.public_subnet.0.id}"
-}
-
-# Adding Route for Transit Gateway
-
-resource "aws_route" "my-tgw-route" {
-  route_table_id         = "${aws_route_table.public_route.id}"
-  destination_cidr_block = "0.0.0.0/0"
-  transit_gateway_id     = "${var.transit_gateway}"
 }
