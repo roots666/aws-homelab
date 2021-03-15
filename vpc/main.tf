@@ -100,8 +100,10 @@ resource "aws_route_table_association" "private_subnet_assoc" {
 
 # create VPC Network access control list
 resource "aws_network_acl" "my_vpc_nacl" {
-  vpc_id = "${aws_vpc.main.id}"
-  subnet_ids = [ aws_subnet.public_subnet.id ]# allow ingress port 22
+  count          = 2
+  vpc_id         = "${aws_vpc.main.id}"
+  subnet_id      = "${aws_subnet.public_subnet.*.id[count.index]}" # allow ingress port 22
+
   ingress {
     protocol   = "tcp"
     rule_no    = 100
