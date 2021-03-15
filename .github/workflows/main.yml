@@ -49,5 +49,5 @@ jobs:
         key: ${{secrets.TEST_SSH_PRIVATE_KEY}}
         inventory: |
           inventory_aws_ec2.yml
-      options: |
-        --verbose
+      #options: |
+      # --verbose
